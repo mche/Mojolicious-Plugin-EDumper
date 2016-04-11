@@ -4,7 +4,7 @@ use Mojo::Base 'Mojolicious::Plugin';
 use Encode qw(decode);
 use Data::Recursive::Encode;
 
-our $VERSION = '0.00001';
+our $VERSION = '0.00002';
 
 =pod
 
@@ -77,7 +77,7 @@ sub register {
   my $helper = delete $conf->{helper} || 'edumper';
   $app->helper($helper => sub {
     shift;
-    decode $enc, Data::Dumper->new(Data::Recursive::Encode->encode($enc, [@_]),)->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
+    decode $enc, Data::Dumper->new(Data::Recursive::Encode->encode($enc, \@_),)->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
   });
   return $self;
 }
