@@ -20,7 +20,9 @@ WriteMakefile(
     PREREQ_PM => {
         #'ABC'              => 1.6,
         #'Foo::Bar::Module' => 5.0401,
+        'Mojolicious'=>5.01,
+        'Data::Recursive::Encode'=>0.01,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    #~ clean => { FILES => 'Mojolicious-Plugin-EDumper-*' },
+    clean => { FILES => 'Mojolicious-Plugin-EDumper-*' },
 );
