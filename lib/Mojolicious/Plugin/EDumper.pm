@@ -84,4 +84,15 @@ sub register {
   return $self;
 }
 
+sub _decode_utf8 {
+    my ($self, $val) = @_;
+ 
+    if (Encode::is_utf8($val)) {
+        return $val;
+    }
+    else {
+        return Encode::decode(utf8 => $val);
+    }
+}
+
 1;
