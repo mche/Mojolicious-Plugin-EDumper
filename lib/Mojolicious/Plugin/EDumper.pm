@@ -79,10 +79,11 @@ sub register {
       #~ Data::Dumper->new(Data::Recursive::Encode->encode($enc, \@_),)
       #~ ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
       
-      eval 'qq#'.Data::Dumper->new(\@_)
+      #~ eval 'qq#'.
+      Data::Dumper->new(\@_)
         ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
-        .'#';
-        #=~ s/(\\x\{[\da-f]+\})/eval '"'.$1.'"'/eigr;
+        #~ .'#';
+        =~ s/(\\x\{[\da-f]+\})/eval '"'.$1.'"'/eigr;
       
   });
   return $self;
