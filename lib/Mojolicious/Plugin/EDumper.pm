@@ -27,21 +27,15 @@ Mojolicious::Plugin::EDumper - pretty dumps encoded data.
 
     $app->plugin('EDumper');
     $app->plugin('EDumper', helper=>'dumper');
-    $app->plugin('EDumper', helper=>'dumper', enc=>'cp777');
     
     $c->dumper( +{'Вася' => 'Пупкин'} );
 
 =head1 OPTIONS
 
-=over 4
-
-=item * B<helper>
+=head2 helper
 
 Name of the helper. Default - 'edumper'.
 
-=item * B<enc>
-
-Encoding. Default - 'utf8'.
 
 =head1 SEE ALSO
 
