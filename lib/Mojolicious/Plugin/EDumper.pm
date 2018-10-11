@@ -4,18 +4,20 @@ use Mojo::Base 'Mojolicious::Plugin';
 #~ use Encode qw(decode);
 #~ use Data::Recursive::Encode;
 
-our $VERSION = '0.00004';
+our $VERSION = '0.00005';
 
 =pod
 
 =encoding utf8
 
 
-
 =head1 ¡ ¡ ¡ ALL GLORY TO GLORIA ! ! !
 
 Доброго всем, соответственно
 
+=head1 VERSION
+
+0.00005
 
 =head1 NAME
 
@@ -66,7 +68,7 @@ Please report any bugs or feature requests at L<https://github.com/mche/Mojolici
 
 =head1 COPYRIGHT
 
-Copyright 2016 Mikhail Che.
+Copyright 2016+ Mikhail Che.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
@@ -83,23 +85,13 @@ sub register {
       #~ Data::Dumper->new(Data::Recursive::Encode->encode($enc, \@_),)
       #~ ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
       
-      Data::Dumper->new(\@_)
+      eval 'qq#'.Data::Dumper->new(\@_)
         ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
-        =~ s/(\\x\{[\da-f]+\})/eval '"'.$1.'"'/eigr;
+        .'#';
+        #=~ s/(\\x\{[\da-f]+\})/eval '"'.$1.'"'/eigr;
       
   });
   return $self;
 }
-
-#~ sub _decode_utf8 {
-    #~ my ($self, $val) = @_;
- 
-    #~ if (Encode::is_utf8($val)) {
-        #~ return $val;
-    #~ }
-    #~ else {
-        #~ return Encode::decode(utf8 => $val);
-    #~ }
-#~ }
 
 1;
