@@ -83,7 +83,7 @@ sub register {
       Data::Dumper->new(\@_)
         ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
         #~ .'#';
-        =~ s/(\\x\{[\da-f]+\})/eval '"'.$1.'"'/eigr;
+        =~ s/((?:\\x\{[\da-f]+\})+)/eval '"'.$1.'"'/eigr;
       
   });
   return $self;
