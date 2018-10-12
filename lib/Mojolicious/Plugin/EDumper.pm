@@ -2,7 +2,7 @@ package Mojolicious::Plugin::EDumper;
 
 use Mojo::Base 'Mojolicious::Plugin';
 
-our $VERSION = '0.00006';
+our $VERSION = '0.00007';
 
 =pod
 
@@ -15,7 +15,7 @@ our $VERSION = '0.00006';
 
 =head1 VERSION
 
-0.00006
+0.00007
 
 =head1 NAME
 
@@ -27,6 +27,7 @@ Mojolicious::Plugin::EDumper - pretty dumps encoded data.
     $app->plugin('EDumper', helper=>'dumper');
     
     $c->dumper( +{'Вася' => 'Пупкин'} );
+    
 
 =head1 OPTIONS
 
@@ -73,20 +74,16 @@ sub register {
   my $helper = delete $conf->{helper} || 'edumper';
   $app->helper($helper => sub {
     shift;
-    #~ decode $enc,
-      #~ Data::Dumper->new(Data::Recursive::Encode->encode($enc, \@_),)
-      #~ ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
       
-      my $dump = eval 'qq★'.
-      Data::Dumper->new(\@_)
-        ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
-        .'★';
-        #~ =~ s/((?:\\x\{[\da-f]+\})+)/eval '"'.$1.'"'/eigr;
+      #~ my $dump = eval 'qq★'.
+        Data::Dumper->new(\@_)->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
+          #~ .'★';
+        =~ s/((?:\\x\{[\da-f]+\})+)/eval '"'.$1.'"'/eigr;
       
-      die __PACKAGE__." error: $@"
-        if $@;
+      #~ die __PACKAGE__." error: $@"
+        #~ if $@;
       
-      return $dump;
+      #~ return $dump;
       
   });
   return $self;
