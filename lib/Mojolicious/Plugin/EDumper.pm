@@ -1,10 +1,8 @@
 package Mojolicious::Plugin::EDumper;
 
 use Mojo::Base 'Mojolicious::Plugin';
-#~ use Encode qw(decode);
-#~ use Data::Recursive::Encode;
 
-our $VERSION = '0.00005';
+our $VERSION = '0.00006';
 
 =pod
 
@@ -17,7 +15,7 @@ our $VERSION = '0.00005';
 
 =head1 VERSION
 
-0.00005
+0.00006
 
 =head1 NAME
 
@@ -71,7 +69,7 @@ it under the same terms as Perl itself.
 
 sub register {
   my ($self, $app, $conf)  = @_;
-  my $enc = delete $conf->{enc} || 'utf8';
+  #~ my $enc = delete $conf->{enc} || 'utf8';
   my $helper = delete $conf->{helper} || 'edumper';
   $app->helper($helper => sub {
     shift;
@@ -79,11 +77,16 @@ sub register {
       #~ Data::Dumper->new(Data::Recursive::Encode->encode($enc, \@_),)
       #~ ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump;
       
-      #~ eval 'qq#'.
+      my $dump = eval 'qq★'.
       Data::Dumper->new(\@_)
         ->Indent(1)->Sortkeys(1)->Terse(1)->Useqq(0)->Dump
-        #~ .'#';
-        =~ s/((?:\\x\{[\da-f]+\})+)/eval '"'.$1.'"'/eigr;
+        .'★';
+        #~ =~ s/((?:\\x\{[\da-f]+\})+)/eval '"'.$1.'"'/eigr;
+      
+      die __PACKAGE__." error: $@"
+        if $@;
+      
+      return $dump;
       
   });
   return $self;
